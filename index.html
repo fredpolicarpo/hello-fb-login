@@ -1,25 +1,67 @@
-<html>
-  <head>
-    <title>Angular 2 QuickStart</title>
+<!DOCTYPE html>
+<html lang=pt>
+<head>
+    <title>Hello Firebase Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" type="text/css" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
 
-    <!-- Polyfill(s) for older browsers -->
-    <script src="node_modules/core-js/client/shim.min.js"></script>
+<body>
+<div id="login" class="cartao">
+    <div class="login cartao">
+        <img src="google_firebase-2-128.png">
+        <h1>Bem vindo ao Firebase Login</h1>
+        <button onclick="facebookLogin()" class="face"><i class="fa fa-facebook-square" aria-hidden="true"></i>Entrar
+            com <b>Facebook</b></button>
+        <button class="google"><i class="fa fa-google" aria-hidden="true"></i>Entrar com Google</button>
+        <button><i class="fa fa-user" aria-hidden="true"></i>Entrar como Anônimo</button>
 
-    <script src="node_modules/zone.js/dist/zone.js"></script>
-    <script src="node_modules/reflect-metadata/Reflect.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    </div>
+    <span class="overlay"></span>
+</div>
 
-    <script src="systemjs.config.js"></script>
-    <script>
-      System.import('app').catch(function(err){ console.error(err); });
-    </script>
-  </head>
+<div class="firelogin hide cartao">
+    <div>
+        <img class="avatar" id="foto">
+        <h1 id="username"></h1>
+        <h3 id="email"></h3>
+    </div>
+    <div style="margin-top: 50px">
+        <img src="google_firebase-2-128.png">
+        <h4>Seja bem vindo ao</h4>
+        <h1>Firebase Login</h1>
+    </div>
 
-  <body>
-    <my-app>Loading...</my-app>
-  </body>
+</div>
+<script>
+    var config = {
+        apiKey: "AIzaSyAOlL5BIsqbuCT1C3KnJQUY14J1UcUmbgg",
+        authDomain: "hello-fb-login.firebaseapp.com",
+        databaseURL: "https://hello-fb-login.firebaseio.com",
+        storageBucket: "hello-fb-login.appspot.com"
+    };
+
+    function facebookLogin() {
+        console.log("Tentando Logar");
+        var provider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+            $("#username").text(result.user.displayName);
+            $("#email").text(result.user.email);
+            $("#foto").attr("src", result.user.photoURL);
+            $(".firelogin").removeClass("hide");
+            $("#login").addClass("hide");
+        }).catch(function (error) {
+            console.log("Falha ao logar via Facebook: " + error);
+        });
+    };
+
+    window.onload = function () {
+        firebase.initializeApp(config);
+    };
+    //firebase.offAuth(function() {console.info('Usuário deslogou');});
+</script>
+</body>
 </html>

@@ -1,56 +1,80 @@
 ul {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
+
 .face {
-  background-color: #29447e;
-  color: #FFF;
+    background-color: #29447e;
+    color: #FFF;
 }
+
 .google {
-  background-color: #357ae8;
-  color: #FFF;
+    background-color: #357ae8;
+    color: #FFF;
 }
+
+h1, h4, h3 {
+    text-align: center;
+    color: #333;
+    text-shadow: 1px 1px 4px #ccc;
+}
+
+.avatar {
+    border-radius: 50%;
+    border: 2px 2px 2px yellow;
+}
+
 button {
-  width: 100%;
-  height: 50px;
-  margin-bottom: 10px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  font-size: 1.3em;
-  display: inline-block;
-  text-decoration: none;
-  text-align: left;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    font-size: 1.3em;
+    display: inline-block;
+    text-decoration: none;
+    text-align: left;
+}
+.hide {
+    display: none;
 }
 .login {
-  background-color: #FFF;
-  border: 1px solid #000;
-  height: 300px;
-  width: 400px;
-  padding: 10px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin: -160px 0 0 -210px;
-  align-content: center;
-  z-index: 1;
-  border-radius: 10px;
+    background-color: #FFF;
+    z-index: 1;
+    box-shadow: 0 0 10px #3a3a3a;
+    border-radius: 10px;
+    padding: 10px;
 }
-.login img {
-  float: left;
+.cartao {
+    align-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 300px;
+    width: 400px;
+    padding: 10px;
+    margin: -160px 0 0 -210px;
+}
+img {
+    float: left;
+    height: 100px;
+}
+.firelogin {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .4), 1px 3px 5px rgba(0, 0, 0, .1);
 }
 .login h1 {
-  text-align: left;
+    text-align: left;
 }
 .login i {
-  margin-left: 20px;;
-  margin-right: 20px;
+    margin-left: 20px;;
+    margin-right: 20px;
 }
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, .5);
-  width: 100%;
-  height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .2);
+    width: 100%;
+    height: 100%;
 }
