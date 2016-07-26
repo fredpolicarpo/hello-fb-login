@@ -95,6 +95,15 @@ img {
     margin-left: 20px;;
     margin-right: 20px;
 }
+.firelogin p {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    text-align: center
+}
+.firelogin i {
+    margin-left: 10px;
+}
 .overlay {
     position: fixed;
     top: 0;
