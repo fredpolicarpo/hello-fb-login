@@ -131,7 +131,9 @@
         var provider = new firebase.auth.GoogleAuthProvider();
         var me = this;
         firebase.auth().signInWithPopup(provider).then(function (result) {
-            $("#iconLogado").addClass("fa fa-google");
+            var credential = firebase.auth.GoogleAuthProvider.credential(result.user.getAuthResponse().id_token);
+
+            $("#iconLogado").addClass("fa fa-gogole");
             $("#username").text(result.user.displayName);
             $("#email").text(result.user.email);
             $("#foto").attr("src", result.user.photoURL);
