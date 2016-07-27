@@ -6,9 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="node_modules/sweetalert/dist/sweetalert.css">
     <script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/9459e1215b.js"></script>
+    <script src="node_modules/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -69,10 +71,17 @@
             $("#foto").attr("src", result.user.photoURL);
             $(".firelogin").removeClass("hide");
             $("#login").addClass("hide");
-
         }).catch(function (error) {
-            console.error("ERRO: " + error.code);
-            console.error("Falha ao logar: " + error);
+            if (error.code === 'auth/account-exists-with-different-credential') {
+                var email = error.email;
+                firebase.auth().fetchProvidersForEmail(email).then(function (providers) {
+                    sweetAlert("Não deu ;(", 'Você já logou com o email ' + email + ' usando método de autenticação ' + providers, "error");
+                });
+
+            } else {
+                console.error("ERRO: " + error.code);
+                console.error("Falha ao logar: " + error);
+            }
         });
     }
 
