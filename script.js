@@ -52,7 +52,6 @@ function facebookLogin() {
             firebase.auth().fetchProvidersForEmail(email).then(function (providers) {
                 sweetAlert("Não deu ;(", 'Você já logou com o email ' + email + ' usando método de autenticação ' + providers, "error");
             });
-
         } else {
             console.error("ERRO: " + error.code);
             console.error("Falha ao logar: " + error);
