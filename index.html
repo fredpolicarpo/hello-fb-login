@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<div id="login" class="cartao">
+<div id="login" class="cartao hide">
     <div class="login cartao">
         <img src="google_firebase-2-128.png">
         <h1>Bem vindo ao Firebase Login</h1>
@@ -56,21 +56,39 @@
         firebase.auth().signOut();
         $(".firelogin").addClass("hide");
         $("#login").removeClass("hide");
+        limparSessao();
+    }
+
+    function salveUserNaSessao(user) {
+        sessionStorage.nome = user.displayName;
+        sessionStorage.email = user.email;
+        sessionStorage.foto = user.photoURL;
+    }
+
+    function limparSessao() {
+        sessionStorage.clear();
+    }
+
+    function preenchaUsuario() {
+        $("#username").text(sessionStorage.nome);
+        $("#email").text(sessionStorage.email);
+        $("#foto").attr("src", sessionStorage.foto);
+        $(".firelogin").removeClass("hide");
+        $("#login").addClass("hide");
     }
 
     function facebookLogin() {
-        console.log("Entrando com Facebook...");
+        console.debug("Entrando com Facebook...");
         var provider = new firebase.auth.FacebookAuthProvider();
         var me = this;
 
         firebase.auth().signInWithPopup(provider).then(function (result) {
             $("#iconLogado").addClass("fa-facebook-square");
             $("#iconLogado").removeClass("fa-google fa-user");
-            $("#username").text(result.user.displayName);
-            $("#email").text(result.user.email);
-            $("#foto").attr("src", result.user.photoURL);
             $(".firelogin").removeClass("hide");
-            $("#login").addClass("hide");
+            $("#login").addClass("hide ativo");
+            window.salveUserNaSessao(result.user)
+            window.preenchaUsuario();
         }).catch(function (error) {
             if (error.code === 'auth/account-exists-with-different-credential') {
                 var email = error.email;
@@ -92,11 +110,8 @@
         firebase.auth().signInWithPopup(provider).then(function (result) {
             $("#iconLogado").addClass("fa-google");
             $("#iconLogado").removeClass("fa-facebook-square fa-user");
-            $("#username").text(result.user.displayName);
-            $("#email").text(result.user.email);
-            $("#foto").attr("src", result.user.photoURL);
-            $(".firelogin").removeClass("hide");
-            $("#login").addClass("hide");
+            window.salveUserNaSessao(result.user)
+            window.preenchaUsuario();
         }).catch(function (error) {
             console.error("Falha ao logar: " + error);
         });
@@ -112,19 +127,31 @@
             if (user && user.isAnonymous) {
                 $("#iconLogado").addClass("fa-user");
                 $("#iconLogado").removeClass("fa-facebook-square fa-google");
-                $("#username").text("Mistéérioo!");
-                $("#email").text("@nonimo");
-                $("#foto").attr("src", "https://scontent.fcpq1-1.fna.fbcdn.net/v/t1.0-1/c15.15.190.190/s160x160/482865_107766019411218_1824143669_n.jpg?oh=233c546aafa3f867c19151aebe803804&oe=582AB1AD");
-                $(".firelogin").removeClass("hide");
-                $("#login").addClass("hide");
+                window.salveUserNaSessao({
+                    displayName: 'Mistéérioo',
+                    email: '@nonimo',
+                    photoURL: 'https://scontent.fcpq1-1.fna.fbcdn.net/v/t1.0-1/c15.15.190.190/s160x160/482865_107766019411218_1824143669_n.jpg?oh=233c546aafa3f867c19151aebe803804&oe=582AB1AD'
+                });
+                window.preenchaUsuario();
             } else if (!user) {
                 console.log("Deslogou");
             }
         });
     }
 
+    function verificaUsuarioLogado() {
+        if (sessionStorage.nome) {
+            console.debug("preencher usuário");
+            preenchaUsuario();
+        } else {
+            console.debug("LOGAR");
+            $("#login").removeClass("hide");
+        }
+    }
+
     window.onload = function () {
         firebase.initializeApp(config);
+        verificaUsuarioLogado();
     };
 </script>
 </body>
