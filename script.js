@@ -10,21 +10,14 @@ var config = {
     storageBucket: "hello-fb-login.appspot.com"
 };
 
-function logout() {
-    firebase.auth().signOut();
-    $(".firelogin").addClass("hide");
-    $("#login").removeClass("hide");
-    limparSessao();
-}
-
-function salveUserNaSessao(user) {
-    sessionStorage.nome = user.displayName;
-    sessionStorage.email = user.email;
-    sessionStorage.foto = user.photoURL;
-}
-
-function limparSessao() {
-    sessionStorage.clear();
+function verificaUsuarioLogado() {
+    if (sessionStorage.nome) {
+        console.debug("preencher usuário");
+        preenchaUsuario();
+    } else {
+        console.debug("LOGAR");
+        logout();
+    }
 }
 
 function preenchaUsuario() {
@@ -36,14 +29,29 @@ function preenchaUsuario() {
     $("#login").addClass("hide");
 }
 
+function logout() {
+    firebase.auth().signOut();
+    $(".firelogin").addClass("hide");
+    $("#login").removeClass("hide");
+    limparSessao();
+}
+
+function limparSessao() {
+    sessionStorage.clear();
+}
+
+function salveUserNaSessao(user) {
+    sessionStorage.nome = user.displayName;
+    sessionStorage.email = user.email;
+    sessionStorage.foto = user.photoURL;
+}
+
 function facebookLogin() {
     console.debug("Entrando com Facebook...");
     var provider = new firebase.auth.FacebookAuthProvider();
 
     firebase.auth().signInWithPopup(provider).then(function (result) {
         sessionStorage.iconeProvedor = "fa-facebook-square";
-        $(".firelogin").removeClass("hide");
-        $("#login").addClass("hide ativo");
         window.salveUserNaSessao(result.user);
         window.preenchaUsuario();
     }).catch(function (error) {
@@ -62,7 +70,6 @@ function facebookLogin() {
 function googleLogin() {
     console.debug("Entrando com Google...");
     var provider = new firebase.auth.GoogleAuthProvider();
-    var me = this;
     firebase.auth().signInWithPopup(provider).then(function (result) {
         sessionStorage.iconeProvedor = "fa-google";
         window.salveUserNaSessao(result.user)
@@ -74,6 +81,7 @@ function googleLogin() {
 
 function anonimoLogin() {
     console.debug("Entrando Anônimamente...");
+
     firebase.auth().signInAnonymously().catch(function (error) {
         console.error("Falha ao logar: " + error);
     });
@@ -91,14 +99,4 @@ function anonimoLogin() {
             console.log("Deslogou");
         }
     });
-}
-
-function verificaUsuarioLogado() {
-    if (sessionStorage.nome) {
-        console.debug("preencher usuário");
-        preenchaUsuario();
-    } else {
-        console.debug("LOGAR");
-        $("#login").removeClass("hide");
-    }
 }
