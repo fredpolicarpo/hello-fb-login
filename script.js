@@ -28,6 +28,7 @@ function limparSessao() {
 }
 
 function preenchaUsuario() {
+    $("#iconLogado").addClass(sessionStorage.iconeProvedor);
     $("#username").text(sessionStorage.nome);
     $("#email").text(sessionStorage.email);
     $("#foto").attr("src", sessionStorage.foto);
@@ -38,14 +39,12 @@ function preenchaUsuario() {
 function facebookLogin() {
     console.debug("Entrando com Facebook...");
     var provider = new firebase.auth.FacebookAuthProvider();
-    var me = this;
 
     firebase.auth().signInWithPopup(provider).then(function (result) {
-        $("#iconLogado").addClass("fa-facebook-square");
-        $("#iconLogado").removeClass("fa-google fa-user");
+        sessionStorage.iconeProvedor = "fa-facebook-square";
         $(".firelogin").removeClass("hide");
         $("#login").addClass("hide ativo");
-        window.salveUserNaSessao(result.user)
+        window.salveUserNaSessao(result.user);
         window.preenchaUsuario();
     }).catch(function (error) {
         if (error.code === 'auth/account-exists-with-different-credential') {
@@ -66,8 +65,7 @@ function googleLogin() {
     var provider = new firebase.auth.GoogleAuthProvider();
     var me = this;
     firebase.auth().signInWithPopup(provider).then(function (result) {
-        $("#iconLogado").addClass("fa-google");
-        $("#iconLogado").removeClass("fa-facebook-square fa-user");
+        sessionStorage.iconeProvedor = "fa-google";
         window.salveUserNaSessao(result.user)
         window.preenchaUsuario();
     }).catch(function (error) {
@@ -83,8 +81,7 @@ function anonimoLogin() {
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (user && user.isAnonymous) {
-            $("#iconLogado").addClass("fa-user");
-            $("#iconLogado").removeClass("fa-facebook-square fa-google");
+            sessionStorage.iconeProvedor = "fa-user";
             window.salveUserNaSessao({
                 displayName: 'Mistéérioo',
                 email: '@nonimo',
