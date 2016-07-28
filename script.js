@@ -58,7 +58,7 @@ function facebookLogin() {
         if (error.code === 'auth/account-exists-with-different-credential') {
             var email = error.email;
             firebase.auth().fetchProvidersForEmail(email).then(function (providers) {
-                sweetAlert("Não deu ;(", 'Você já logou com o email ' + email + ' usando método de autenticação ' + providers, "error");
+                sweetAlert("Não deu ;(", 'Você já logou com o email ' + email + ' usando o método de autenticação ' + providers, "error");
             });
         } else {
             console.error("ERRO: " + error.code);
