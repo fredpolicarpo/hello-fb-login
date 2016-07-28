@@ -33,6 +33,7 @@ function logout() {
     firebase.auth().signOut();
     $(".firelogin").addClass("hide");
     $("#login").removeClass("hide");
+    $("#iconLogado").removeClass(sessionStorage.iconeProvedor);
     limparSessao();
 }
 
