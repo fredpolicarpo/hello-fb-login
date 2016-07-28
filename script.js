@@ -1,7 +1,7 @@
-window.onload = function () {
+$(document).ready(function () {
     firebase.initializeApp(config);
     verificaUsuarioLogado();
-};
+});
 
 var config = {
     apiKey: "AIzaSyAOlL5BIsqbuCT1C3KnJQUY14J1UcUmbgg",
